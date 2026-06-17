@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>陪伴的藝術 · Ahniomini</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../shared.css">
+  <style>
+    .reader-page { background: #0d0d0d; min-height: 100vh; padding-top: 58px; display: flex; flex-direction: column; }
+    .reader-header { display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 58px; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.08); position: fixed; top: 0; left: 0; right: 0; z-index: 200; }
+    .r-back { color: rgba(255,255,255,0.7); font-size: 0.85rem; font-weight: 700; text-decoration: none; font-family: inherit; background: none; border: none; cursor: pointer; transition: color 0.2s; }
+    .r-back:hover { color: #fff; }
+    .r-title { color: #fff; font-size: 0.9rem; font-weight: 900; letter-spacing: 0.02em; }
+    .r-progress { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .r-pagenum { color: rgba(255,255,255,0.6); font-size: 0.75rem; font-weight: 700; }
+    .r-bar { width: 80px; height: 3px; background: rgba(255,255,255,0.15); border-radius: 999px; overflow: hidden; }
+    .r-fill { height: 100%; background: #D4537E; border-radius: 999px; transition: width 0.3s ease; }
+
+    .stage { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: #0d0d0d; min-height: calc(100vh - 58px - 70px); }
+    .slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .slide.active { opacity: 1; pointer-events: auto; }
+    .slide img { max-width: 100%; max-height: calc(100vh - 58px - 70px); object-fit: contain; display: block; }
+
+    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 5; }
+    .nav-btn:hover { background: rgba(255,255,255,0.22); }
+    .nav-btn:disabled { opacity: 0.15; cursor: default; }
+    .nav-btn:disabled:hover { background: rgba(255,255,255,0.1); }
+    .nav-prev { left: 16px; }
+    .nav-next { right: 16px; }
+
+    .thumb-strip { display: flex; gap: 8px; padding: 12px 16px; background: rgba(0,0,0,0.85); overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+    .thumb-strip::-webkit-scrollbar { display: none; }
+    .thumb { width: 56px; height: 40px; border-radius: 7px; border: 2px solid transparent; cursor: pointer; overflow: hidden; flex-shrink: 0; transition: border-color 0.2s, opacity 0.2s; opacity: 0.45; background: #222; }
+    .thumb.active { border-color: #D4537E; opacity: 1; }
+    .thumb:hover { opacity: 0.8; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .thumb-num { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700; }
+
+    .swipe-hint { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.3); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; pointer-events: none; white-space: nowrap; }
+  </style>
+</head>
+<body>
+<div class="reader-page">
+
+  <header class="reader-header">
+    <a class="r-back" href="index.html">← 回小故事</a>
+    <span class="r-title">陪伴的藝術</span>
+    <div class="r-progress">
+      <span class="r-pagenum" id="pagenum">1 / 1</span>
+      <div class="r-bar"><div class="r-fill" id="prog" style="width:100%"></div></div>
+    </div>
+  </header>
+
+  <div class="stage" id="stage">
+    <button class="nav-btn nav-prev" id="prev" onclick="go(-1)" disabled aria-label="上一張">‹</button>
+    <button class="nav-btn nav-next" id="next" onclick="go(1)" aria-label="下一張">›</button>
+    <div class="swipe-hint">← 滑動切換 →</div>
+  </div>
+
+  <div class="thumb-strip" id="thumbs"></div>
+
+</div>
+
+<script>
+const ids = ["14OEF5NzbTORxLXiBtTdFC5OQBRUKo6pw","1A_WvU3_6CuPJY6ZFmraUUGINrbSQfjIM","1nVXJgRirdz10akfPtWCYDoURwR6ioT5c","1yd_TI4_oQxYVI3KzpX0-id8UwW_Cza36","1zE-EeYkr8zzjWqZ5tN_P6sV_Q5bvMJGg"];
+const total = ids.length;
+let cur = 0;
+
+const stage = document.getElementById('stage');
+const thumbsEl = document.getElementById('thumbs');
+
+ids.forEach((id, i) => {
+  const slide = document.createElement('div');
+  slide.className = 'slide' + (i === 0 ? ' active' : '');
+  const img = document.createElement('img');
+  img.src = 'https://lh3.googleusercontent.com/d/' + id;
+  img.alt = '第 ' + (i+1) + ' 張';
+  img.loading = i === 0 ? 'eager' : 'lazy';
+  img.onerror = function(){ this.style.opacity='0.3'; };
+  slide.appendChild(img);
+  stage.insertBefore(slide, document.getElementById('prev'));
+
+  const th = document.createElement('div');
+  th.className = 'thumb' + (i === 0 ? ' active' : '');
+  const thImg = document.createElement('img');
+  thImg.src = 'https://lh3.googleusercontent.com/d/' + id;
+  thImg.alt = '';
+  thImg.onerror = function(){ this.parentElement.innerHTML = '<div class="thumb-num">' + (i+1) + '</div>'; };
+  th.appendChild(thImg);
+  th.onclick = () => goTo(i);
+  thumbsEl.appendChild(th);
+});
+
+update();
+
+function goTo(n) {
+  document.querySelectorAll('.slide')[cur].classList.remove('active');
+  document.querySelectorAll('.thumb')[cur].classList.remove('active');
+  cur = n;
+  document.querySelectorAll('.slide')[cur].classList.add('active');
+  const th = document.querySelectorAll('.thumb')[cur];
+  th.classList.add('active');
+  th.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  update();
+}
+
+function go(d) { if (cur + d >= 0 && cur + d < total) goTo(cur + d); }
+
+function update() {
+  document.getElementById('pagenum').textContent = (cur + 1) + ' / ' + total;
+  document.getElementById('prog').style.width = ((cur + 1) / total * 100) + '%';
+  document.getElementById('prev').disabled = cur === 0;
+  document.getElementById('next').disabled = cur === total - 1;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') go(1);
+  if (e.key === 'ArrowLeft') go(-1);
+});
+
+let tx = 0;
+stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+stage.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+}, { passive: true });
+</script>
+</body>
+</html>

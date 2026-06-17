@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIPI繪畫 · Ahniomini</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+<div class="page-wrap">
+<nav>
+  <a class="nav-logo" href="../index.html">Ahniomini ✦</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#portfolio">作品集</a></li>
+    <li><a href="../index.html#about">關於我</a></li>
+    <li><a href="https://www.instagram.com/ahniomini/" target="_blank" class="nav-ig">📷 Instagram</a></li>
+  </ul>
+</nav>
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <a class="back-link" href="../index.html#portfolio">← 回作品集</a>
+    <p class="eyebrow" style="color:#D4537E">作品精選</p>
+    <h1 class="page-title">PIPI繪畫</h1>
+    <p class="page-desc">待填寫介紹文字 — 這裡放 Pei-I 對這個系列的說明。</p>
+  </div>
+</div>
+<section class="section">
+  <div class="section-inner">
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+<footer>
+  <div class="footer-logo">Ahniomini ✦</div>
+  <p>© 2025 Ahniomini. All rights reserved.</p>
+</footer>
+</div>
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lb-img" src="" alt="">
+</div>
+<script>
+const ids = ["10SiTSrKFK02a21dZaeV3tDbxKxC26lTS","15x6T4Jindvuu93cS0EzZ5bmviKzF55Ym","180EbLswkYqCuK2SahhBUOKLEBnEB-5Tp","1AgDVgaOi9c4sCW1o9e-hwk_FdXiyqtWu","1F3ERytPkEZxdV2wlSSJS2MSOMAubyNcL","1J1Y3GqBrrusvQ33Mu97Ff_Mu3PHsV1st","1RK3HR2TxdP0BGa2wDc4Gm1rgnFwyENeC","1VcetbNcquLdpdsxNyVeGNt5zdmZGYXeT","1pvlZ0K4f8XbTuvRvUuIBKCPvRVhAitPk","1sq3gsMcwScsaW3S2PKAnhVrK1sPOaD13","12lWspts1Z80CSnQ08F8neAWVDT7LqXBl","1K-0PMoVVrxcGMzFXRKZPE9zg0yOFkC5a","1ONC6cSUuMKs3n0UY2tOS1LCYS-bR_VMY","1bV8NjxdgSTEEmo_cka9H4ZbeM_T3fZpB","1zoPLjGpYd3-3Jq5CD6eubpW3QxmReID9"];
+const g = document.getElementById('gallery');
+g.innerHTML = ids.map(id => `<div class="gallery-item" onclick="openLightbox('https://lh3.googleusercontent.com/d/${id}')"><img src="https://lh3.googleusercontent.com/d/${id}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`).join('');
+function openLightbox(src){ document.getElementById('lb-img').src=src; document.getElementById('lightbox').classList.add('open'); }
+function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
+document.getElementById('lightbox').addEventListener('click',function(e){ if(e.target===this) closeLightbox(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+</script>
+</body>
+</html>
