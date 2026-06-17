@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahniomini ✦ 用繪畫說故事</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 8rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .blob { position: absolute; border-radius: 50%; opacity: 0.13; pointer-events: none; animation: float 9s ease-in-out infinite; }
+    .blob-1 { width: 500px; height: 500px; background: #F4C0D1; top: -150px; left: -150px; }
+    .blob-2 { width: 350px; height: 350px; background: #B5D4F4; top: 0; right: -100px; animation-delay: 3s; }
+    .blob-3 { width: 250px; height: 250px; background: #C0DD97; bottom: -80px; left: 40%; animation-delay: 6s; }
+    @keyframes float { 0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-24px) scale(1.04);} }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 680px; }
+    .hero-tag { display: inline-block; background: var(--pink-light); color: var(--pink-dark); font-size: 0.8rem; font-weight: 700; padding: 5px 16px; border-radius: 999px; margin-bottom: 1.5rem; letter-spacing: 0.06em; }
+    .hero-name { font-size: clamp(3.5rem, 9vw, 6rem); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; background: linear-gradient(135deg, #D4537E 0%, #7F77DD 55%, #378ADD 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.8rem; }
+    .hero-sub { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+    .hero-en { font-size: 0.9rem; color: #bbb; font-style: italic; margin-bottom: 2.5rem; }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .chips { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .chip { font-size: 0.82rem; font-weight: 700; padding: 6px 16px; border-radius: 999px; }
+    .chip-pink { background: var(--pink-light); color: var(--pink-dark); }
+    .chip-blue { background: var(--blue-light); color: #1a5FA5; }
+    .chip-green { background: var(--green-light); color: var(--green); }
+    .chip-amber { background: var(--amber-light); color: var(--amber); }
+    .scroll-hint { margin-top: 3rem; color: #ccc; font-size: 0.8rem; animation: bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(6px);} }
+
+    /* PORTFOLIO GRID */
+    .portfolio-section { padding: 5rem 2rem 7rem; background: #fafaf9; }
+    .portfolio-inner { max-width: 1080px; margin: 0 auto; }
+    .portfolio-header { margin-bottom: 3rem; }
+    .portfolio-header h2 { font-size: 2rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .portfolio-header p { color: var(--text-muted); font-size: 1rem; }
+
+    /* 大分類 */
+    .category-group { margin-bottom: 4rem; }
+    .category-group-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.2rem; font-weight: 900; margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem; border-bottom: 2px solid var(--border);
+    }
+    .cat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    /* 子分類卡片 */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+
+    .work-card {
+      border-radius: 20px; overflow: hidden; cursor: pointer;
+      text-decoration: none; color: var(--text);
+      border: 1.5px solid var(--border); background: #fff;
+      transition: transform 0.22s, box-shadow 0.22s;
+      display: block;
+    }
+    .work-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+
+    .card-thumb {
+      aspect-ratio: 4/3; overflow: hidden; position: relative;
+      background: var(--border);
+    }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .work-card:hover .card-thumb img { transform: scale(1.06); }
+
+    .card-thumb-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+
+    .card-body { padding: 1.1rem 1.2rem 1.3rem; }
+    .card-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; }
+    .card-title { font-size: 1.05rem; font-weight: 900; margin-bottom: 0.3rem; }
+    .card-count { font-size: 0.8rem; color: var(--text-muted); }
+    .card-arrow { font-size: 0.85rem; color: #ccc; float: right; margin-top: -1.2rem; }
+
+    /* ABOUT */
+    .about-section { padding: 6rem 2rem; }
+    .about-layout { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 200px 1fr; gap: 4rem; align-items: center; }
+    @media(max-width:640px) { .about-layout { grid-template-columns: 1fr; gap: 2rem; } }
+    .about-avatar { width: 160px; height: 160px; border-radius: 50%; background: linear-gradient(135deg,#F4C0D1,#B5D4F4,#C0DD97); display: flex; align-items: center; justify-content: center; font-size: 4rem; margin: 0 auto; animation: float 7s ease-in-out infinite; }
+    .about-text h3 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.75rem; background: linear-gradient(90deg,#D4537E,#7F77DD); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .about-text p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.9; margin-bottom: 0.75rem; }
+    .about-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.25rem; }
+    .about-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; text-decoration: none; padding: 8px 18px; border-radius: 999px; transition: opacity 0.2s; }
+    .about-link:hover { opacity: 0.78; }
+    .link-ig { background: var(--pink-light); color: var(--pink-dark); }
+    .link-line { background: var(--green-light); color: var(--green); }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+<nav>
+  <a class="nav-logo" href="index.html">Ahniomini ✦</a>
+  <ul class="nav-links">
+    <li><a href="#portfolio">作品集</a></li>
+    <li><a href="#about">關於我</a></li>
+    <li><a href="https://www.instagram.com/ahniomini/" target="_blank" class="nav-ig">📷 Instagram</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">✦ Picture storytelling</div>
+    <h1 class="hero-name">Hi! I'm<br>Ahniomini</h1>
+    <p class="hero-sub">用繪畫說故事 · 療癒系插畫創作者</p>
+    <p class="hero-en">Whimsical adventures of Ah-nio &amp; Mini 🐶</p>
+    <div class="hero-btns">
+      <a href="#portfolio" class="btn btn-primary">看作品集 ↓</a>
+      <a href="https://www.instagram.com/ahniomini/" target="_blank" class="btn btn-outline">Instagram ↗</a>
+    </div>
+    <div class="chips">
+      <span class="chip chip-pink">🎨 插畫</span>
+      <span class="chip chip-blue">📖 繪本故事</span>
+      <span class="chip chip-green">🐶 Ah-nio &amp; Mini</span>
+      <span class="chip chip-amber">✨ 療癒系</span>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ 往下滑探索</div>
+</section>
+
+<!-- PORTFOLIO GRID -->
+<section class="portfolio-section" id="portfolio">
+  <div class="portfolio-inner">
+    <div class="portfolio-header">
+      <p class="eyebrow">Portfolio</p>
+      <h2>作品集</h2>
+      <p>點擊分類，探索每一個系列的故事。</p>
+    </div>
+
+    <!-- 作品精選 -->
+    <div class="category-group">
+      <div class="category-group-title">
+        <div class="cat-dot" style="background:#D4537E"></div>
+        作品精選
+      </div>
+      <div class="card-grid">
+
+        <a class="work-card" href="selected/drawing.html">
+          <div class="card-thumb">
+            <img src="https://lh3.googleusercontent.com/d/10SiTSrKFK02a21dZaeV3tDbxKxC26lTS" alt="PIPI繪畫" loading="lazy" onerror="this.style.display='none'">
+          </div>
+          <div class="card-body">
+            <div class="card-eyebrow">作品精選</div>
+            <div class="card-title">PIPI繪畫</div>
+            <div class="card-count">15 張作品</div>
+            <div class="card-arrow">›</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="selected/comic.html">
+          <div class="card-thumb">
+            <img src="https://lh3.googleusercontent.com/d/10Q-uImYVnpJgPfW7wTq3dkmVVWLanANv" alt="PIPI圖文集" loading="lazy" onerror="this.style.display='none'">
+          </div>
+          <div class="card-body">
+            <div class="card-eyebrow">作品精選</div>
+            <div class="card-title">PIPI圖文集</div>
+            <div class="card-count">17 張作品</div>
+            <div class="card-arrow">›</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="selected/stories/index.html">
+          <div class="card-thumb">
+            <img src="https://lh3.googleusercontent.com/d/14OEF5NzbTORxLXiBtTdFC5OQBRUKo6pw" alt="PIPI小故事" loading="lazy" onerror="this.style.display='none'">
+          </div>
+          <div class="card-body">
+            <div class="card-eyebrow">作品精選</div>
+            <div class="card-title">PIPI小故事</div>
+            <div class="card-count">4 個系列</div>
+            <div class="card-arrow">›</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- 日常畫畫 -->
+    <div class="category-group">
+      <div class="category-group-title">
+        <div class="cat-dot" style="background:#4A8B2A"></div>
+        日常畫畫
+      </div>
+      <div class="card-grid">
+
+        <a class="work-card" href="daily/board.html">
+          <div class="card-thumb">
+            <img src="https://lh3.googleusercontent.com/d/13xZ-bRQ39yFxlDQhZZmdRMoA7N3TfJJd" alt="看板油漆畫" loading="lazy" onerror="this.style.display='none'">
+          </div>
+          <div class="card-body">
+            <div class="card-eyebrow">日常畫畫</div>
+            <div class="card-title">看板油漆畫</div>
+            <div class="card-count">9 張作品</div>
+            <div class="card-arrow">›</div>
+          </div>
+        </a>
+
+        <a class="work-card" href="daily/illustration.html">
+          <div class="card-thumb">
+            <img src="https://lh3.googleusercontent.com/d/113vapgi4fFQfIL_KnJnlz13nCHb_9ZK6" alt="日常插畫" loading="lazy" onerror="this.style.display='none'">
+          </div>
+          <div class="card-body">
+            <div class="card-eyebrow">日常畫畫</div>
+            <div class="card-title">日常插畫</div>
+            <div class="card-count">29 張作品</div>
+            <div class="card-arrow">›</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-layout">
+    <div class="about-avatar">🐶</div>
+    <div class="about-text">
+      <p class="eyebrow">About</p>
+      <h3>阿妞咪妮 Ahniomini</h3>
+      <p>我是一位用畫筆說故事的創作者。透過 Ah-nio 和 Mini 的奇幻旅程，分享溫暖而充滿療癒力量的繪本故事。</p>
+      <p>每一筆都是一個擁抱，每一頁都是一段陪伴。</p>
+      <div class="about-links">
+        <a href="https://www.instagram.com/ahniomini/" target="_blank" class="about-link link-ig">📷 Instagram</a>
+        <a href="https://line.me/S/shop/sticker/author/5578038/top" target="_blank" class="about-link link-line">💬 LINE 貼圖</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Ahniomini ✦</div>
+  <p>用繪畫說故事 · Picture storytelling</p>
+  <p>© 2025 Ahniomini. All rights reserved.</p>
+</footer>
+
+</div>
+</body>
+</html>

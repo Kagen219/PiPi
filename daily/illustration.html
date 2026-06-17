@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>日常插畫 · Ahniomini</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css">
+</head>
+<body>
+<div class="page-wrap">
+<nav>
+  <a class="nav-logo" href="../index.html">Ahniomini ✦</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#portfolio">作品集</a></li>
+    <li><a href="../index.html#about">關於我</a></li>
+    <li><a href="https://www.instagram.com/ahniomini/" target="_blank" class="nav-ig">📷 Instagram</a></li>
+  </ul>
+</nav>
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <a class="back-link" href="../index.html#portfolio">← 回作品集</a>
+    <p class="eyebrow" style="color:#C4720A">日常畫畫</p>
+    <h1 class="page-title">日常插畫</h1>
+    <p class="page-desc">待填寫介紹文字 — 這裡放 Pei-I 對這個系列的說明。</p>
+  </div>
+</div>
+<section class="section">
+  <div class="section-inner">
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+<footer>
+  <div class="footer-logo">Ahniomini ✦</div>
+  <p>© 2025 Ahniomini. All rights reserved.</p>
+</footer>
+</div>
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lb-img" src="" alt="">
+</div>
+<script>
+const ids = ["113vapgi4fFQfIL_KnJnlz13nCHb_9ZK6","12s1kjHe0yIGUR70WUYVsAkctiWEC0HDe","1BNumO5FU_kJPmo7IDypQ8bg-q1l7D9q5","1CJ2mLzjwyQhD-x9nmlHCZupaK1h6rdgK","1ECL6BN6l0FITrKzPGgkfdtGKOhe0ZE4p","1EO36iudX9Qva0OJif7Vq7Pe0kbY2GZxd","1NBs0A8oDp1O_jhn2ruLWmqk5N4rjCPLu","1QEB49YvqTFHJ1NFo59tY2bvFEjCpYtZl","1QHMLUYckCX3wy2Y-ja72WH__PVEAILSV","1VIQKbaJw17aZmD-fWRnU5wUvt_5rFtWg","1YS3Dyk2pu0R1plqY2j3fZarIywAUzRCh","1_heBrfdatZKXg9syWloI_0VIz7idtp1c","1e8q479ewvYoTC10YFkPrWDV-fW5LstlC","1fOOvuWefp6Qd14lJ8wL6Usn4lQcopfsM","1fqaC-SvF9CwTxqnqKRK57th57TjdmkBC","1hRve4oO6ual69wnikf5q-O2L7uRyNWvx","1oXOC1dwSKJBw7axZF9BT01nY4DFr_t1O","1p97Q7HJpT4n8WwwQokpYyBYoc5JvciGw","1pbgCWZWVkhJSaT5b8dZxLzk36NZ7bscu","1qp38Pq1w4UcMtHqX_HOTdnaFc1ttwTZI","1tkOcTMd6P2VZnXEvMD_nPBp3suQsfHMz","1vi5ql8Mwtz_Ui09yWhaQySS212jU6PzQ","1-Wz8cV2Xfibv89nLaWU40SjK_8F-6oPx","11b4qiCb0B4lqXWL0s3ame0EVJTZoJ4KE","15pUNbDmeBHDEC0LoVIjtDevtAB76g_7l","19yQYFxMZEdegC4ihoCvvE0VbIYKFqQn_","1AwTnJPEEtakROm4_MA9DlkRHmkHs1Me_","1BIDnpeMZ2hFnlRsL79knYfiDCWb5E-ff","1CSLOh-7zVj_cnbAnuWtlMCiZEenTwsWF"];
+const g = document.getElementById('gallery');
+g.innerHTML = ids.map(id => `<div class="gallery-item" onclick="openLightbox('https://lh3.googleusercontent.com/d/${id}')"><img src="https://lh3.googleusercontent.com/d/${id}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`).join('');
+function openLightbox(src){ document.getElementById('lb-img').src=src; document.getElementById('lightbox').classList.add('open'); }
+function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
+document.getElementById('lightbox').addEventListener('click',function(e){ if(e.target===this) closeLightbox(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+</script>
+</body>
+</html>
