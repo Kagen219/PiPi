@@ -7,47 +7,102 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../shared.css">
+  <style>
+    body { background: #f7f5f2; }
+    .par-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem;
+      background: rgba(247,245,242,0.88); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .par-back { color: #888; font-size: 0.85rem; font-weight: 700; text-decoration: none; transition: color 0.2s; }
+    .par-back:hover { color: #111; }
+    .par-title { color: #111; font-size: 0.9rem; font-weight: 900; }
+    .par-count { color: #aaa; font-size: 0.78rem; font-weight: 700; }
+
+    .par-hero {
+      padding: 120px 2rem 4rem; text-align: center;
+      background: #f7f5f2;
+    }
+    .par-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #C4720A; margin-bottom: 0.75rem; }
+    .par-name { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; color: #111; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 1rem; }
+    .par-desc { font-size: 1rem; color: #888; max-width: 480px; margin: 0 auto; line-height: 1.8; }
+    .par-divider { width: 40px; height: 3px; background: #C4720A; margin: 2rem auto; border-radius: 999px; }
+
+    /* 視差網格 */
+    .par-grid {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 1.5rem 6rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media(max-width:768px) { .par-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .par-item {
+      border-radius: 14px; overflow: hidden; cursor: pointer;
+      opacity: 0; transform: scale(0.94) translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.3s;
+      aspect-ratio: 1; background: #e8e5e0;
+    }
+    .par-item.visible { opacity: 1; transform: scale(1) translateY(0); }
+    .par-item:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.14); transform: scale(1.02) !important; }
+    .par-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .par-item:hover img { transform: scale(1.06); }
+
+    /* lightbox */
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:999; align-items:center; justify-content:center; padding:2rem; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:90vw; max-height:90vh; border-radius:12px; object-fit:contain; }
+    .lb-close { position:absolute; top:1.25rem; right:1.25rem; background:rgba(255,255,255,0.1); border:none; color:#fff; font-size:1.4rem; width:42px; height:42px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  </style>
 </head>
 <body>
-<div class="page-wrap">
-<nav>
-  <a class="nav-logo" href="../index.html">Ahniomini ✦</a>
-  <ul class="nav-links">
-    <li><a href="../index.html#portfolio">作品集</a></li>
-    <li><a href="../index.html#about">關於我</a></li>
-    <li><a href="https://www.instagram.com/ahniomini/" target="_blank" class="nav-ig">📷 Instagram</a></li>
-  </ul>
-</nav>
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <a class="back-link" href="../index.html#portfolio">← 回作品集</a>
-    <p class="eyebrow" style="color:#C4720A">日常畫畫</p>
-    <h1 class="page-title">日常插畫</h1>
-    <p class="page-desc">待填寫介紹文字 — 這裡放 Pei-I 對這個系列的說明。</p>
-  </div>
+
+<header class="par-header">
+  <a class="par-back" href="../index.html#portfolio">← 返回</a>
+  <span class="par-title">日常插畫</span>
+  <span class="par-count" id="count"></span>
+</header>
+
+<div class="par-hero">
+  <div class="par-eyebrow">日常畫畫</div>
+  <h1 class="par-name">日常插畫</h1>
+  <p class="par-desc">待填寫介紹文字</p>
+  <div class="par-divider"></div>
 </div>
-<section class="section">
-  <div class="section-inner">
-    <div class="gallery" id="gallery"></div>
-  </div>
-</section>
-<footer>
-  <div class="footer-logo">Ahniomini ✦</div>
-  <p>© 2025 Ahniomini. All rights reserved.</p>
-</footer>
-</div>
-<div class="lightbox" id="lightbox">
-  <button class="lb-close" onclick="closeLightbox()">✕</button>
+
+<div class="par-grid" id="grid"></div>
+
+<div class="lightbox" id="lb">
+  <button class="lb-close" onclick="closeLb()">✕</button>
   <img id="lb-img" src="" alt="">
 </div>
+
 <script>
 const ids = ["113vapgi4fFQfIL_KnJnlz13nCHb_9ZK6","12s1kjHe0yIGUR70WUYVsAkctiWEC0HDe","1BNumO5FU_kJPmo7IDypQ8bg-q1l7D9q5","1CJ2mLzjwyQhD-x9nmlHCZupaK1h6rdgK","1ECL6BN6l0FITrKzPGgkfdtGKOhe0ZE4p","1EO36iudX9Qva0OJif7Vq7Pe0kbY2GZxd","1NBs0A8oDp1O_jhn2ruLWmqk5N4rjCPLu","1QEB49YvqTFHJ1NFo59tY2bvFEjCpYtZl","1QHMLUYckCX3wy2Y-ja72WH__PVEAILSV","1VIQKbaJw17aZmD-fWRnU5wUvt_5rFtWg","1YS3Dyk2pu0R1plqY2j3fZarIywAUzRCh","1_heBrfdatZKXg9syWloI_0VIz7idtp1c","1e8q479ewvYoTC10YFkPrWDV-fW5LstlC","1fOOvuWefp6Qd14lJ8wL6Usn4lQcopfsM","1fqaC-SvF9CwTxqnqKRK57th57TjdmkBC","1hRve4oO6ual69wnikf5q-O2L7uRyNWvx","1oXOC1dwSKJBw7axZF9BT01nY4DFr_t1O","1p97Q7HJpT4n8WwwQokpYyBYoc5JvciGw","1pbgCWZWVkhJSaT5b8dZxLzk36NZ7bscu","1qp38Pq1w4UcMtHqX_HOTdnaFc1ttwTZI","1tkOcTMd6P2VZnXEvMD_nPBp3suQsfHMz","1vi5ql8Mwtz_Ui09yWhaQySS212jU6PzQ","1-Wz8cV2Xfibv89nLaWU40SjK_8F-6oPx","11b4qiCb0B4lqXWL0s3ame0EVJTZoJ4KE","15pUNbDmeBHDEC0LoVIjtDevtAB76g_7l","19yQYFxMZEdegC4ihoCvvE0VbIYKFqQn_","1AwTnJPEEtakROm4_MA9DlkRHmkHs1Me_","1BIDnpeMZ2hFnlRsL79knYfiDCWb5E-ff","1CSLOh-7zVj_cnbAnuWtlMCiZEenTwsWF"];
-const g = document.getElementById('gallery');
-g.innerHTML = ids.map(id => `<div class="gallery-item" onclick="openLightbox('https://lh3.googleusercontent.com/d/${id}')"><img src="https://lh3.googleusercontent.com/d/${id}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`).join('');
-function openLightbox(src){ document.getElementById('lb-img').src=src; document.getElementById('lightbox').classList.add('open'); }
-function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
-document.getElementById('lightbox').addEventListener('click',function(e){ if(e.target===this) closeLightbox(); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+document.getElementById('count').textContent = ids.length + ' 張';
+const grid = document.getElementById('grid');
+ids.forEach((id,i) => {
+  const div = document.createElement('div');
+  div.className = 'par-item';
+  const img = document.createElement('img');
+  img.src = 'https://lh3.googleusercontent.com/d/' + id;
+  img.loading = i < 6 ? 'eager' : 'lazy';
+  img.onerror = () => { div.style.display='none'; };
+  div.appendChild(img);
+  div.onclick = () => openLb('https://lh3.googleusercontent.com/d/' + id);
+  grid.appendChild(div);
+});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'), i*50); obs.unobserve(e.target); } });
+}, {threshold:0.05});
+document.querySelectorAll('.par-item').forEach(el => obs.observe(el));
+function openLb(src){ document.getElementById('lb-img').src=src; document.getElementById('lb').classList.add('open'); }
+function closeLb(){ document.getElementById('lb').classList.remove('open'); }
+document.getElementById('lb').addEventListener('click',function(e){ if(e.target===this) closeLb(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLb(); });
 </script>
 </body>
 </html>

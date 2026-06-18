@@ -7,47 +7,102 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../shared.css">
+  <style>
+    body { background: #0d0d0d; }
+    .ex-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 56px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .ex-back { color: rgba(255,255,255,0.65); font-size: 0.85rem; font-weight: 700; text-decoration: none; transition: color 0.2s; }
+    .ex-back:hover { color: #fff; }
+    .ex-title { color: #fff; font-size: 0.9rem; font-weight: 900; }
+    .ex-count { color: rgba(255,255,255,0.4); font-size: 0.78rem; font-weight: 700; }
+
+    .ex-hero {
+      padding: 120px 2rem 3rem; text-align: center;
+      background: #0d0d0d;
+    }
+    .ex-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #D4537E; margin-bottom: 0.75rem; }
+    .ex-name { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; color: #fff; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 1rem; }
+    .ex-desc { font-size: 1rem; color: rgba(255,255,255,0.45); max-width: 480px; margin: 0 auto; line-height: 1.8; }
+
+    .ex-divider { width: 40px; height: 2px; background: #D4537E; margin: 2rem auto; border-radius: 999px; }
+
+    /* 展覽格 */
+    .ex-grid {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 1.5rem 6rem;
+      columns: 3; column-gap: 10px;
+    }
+    @media(max-width:768px) { .ex-grid { columns: 2; } }
+
+    .ex-item {
+      break-inside: avoid; margin-bottom: 10px;
+      border-radius: 10px; overflow: hidden;
+      cursor: pointer; position: relative;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s;
+    }
+    .ex-item.visible { opacity: 1; transform: translateY(0); }
+    .ex-item:hover { box-shadow: 0 0 0 2px #D4537E; }
+    .ex-item img { width: 100%; display: block; border-radius: 10px; transition: transform 0.4s; }
+    .ex-item:hover img { transform: scale(1.03); }
+
+    /* lightbox */
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:999; align-items:center; justify-content:center; padding:2rem; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:90vw; max-height:90vh; border-radius:10px; object-fit:contain; }
+    .lb-close { position:absolute; top:1.25rem; right:1.25rem; background:rgba(255,255,255,0.1); border:none; color:#fff; font-size:1.4rem; width:42px; height:42px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  </style>
 </head>
 <body>
-<div class="page-wrap">
-<nav>
-  <a class="nav-logo" href="../index.html">Ahniomini ✦</a>
-  <ul class="nav-links">
-    <li><a href="../index.html#portfolio">作品集</a></li>
-    <li><a href="../index.html#about">關於我</a></li>
-    <li><a href="https://www.instagram.com/ahniomini/" target="_blank" class="nav-ig">📷 Instagram</a></li>
-  </ul>
-</nav>
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <a class="back-link" href="../index.html#portfolio">← 回作品集</a>
-    <p class="eyebrow" style="color:#D4537E">作品精選</p>
-    <h1 class="page-title">PIPI繪畫</h1>
-    <p class="page-desc">待填寫介紹文字 — 這裡放 Pei-I 對這個系列的說明。</p>
-  </div>
+
+<header class="ex-header">
+  <a class="ex-back" href="../index.html#portfolio">← 返回</a>
+  <span class="ex-title">PIPI繪畫</span>
+  <span class="ex-count" id="count"></span>
+</header>
+
+<div class="ex-hero">
+  <div class="ex-eyebrow">作品精選</div>
+  <h1 class="ex-name">PIPI繪畫</h1>
+  <p class="ex-desc">待填寫介紹文字</p>
+  <div class="ex-divider"></div>
 </div>
-<section class="section">
-  <div class="section-inner">
-    <div class="gallery" id="gallery"></div>
-  </div>
-</section>
-<footer>
-  <div class="footer-logo">Ahniomini ✦</div>
-  <p>© 2025 Ahniomini. All rights reserved.</p>
-</footer>
-</div>
-<div class="lightbox" id="lightbox">
-  <button class="lb-close" onclick="closeLightbox()">✕</button>
+
+<div class="ex-grid" id="grid"></div>
+
+<div class="lightbox" id="lb">
+  <button class="lb-close" onclick="closeLb()">✕</button>
   <img id="lb-img" src="" alt="">
 </div>
+
 <script>
 const ids = ["10SiTSrKFK02a21dZaeV3tDbxKxC26lTS","15x6T4Jindvuu93cS0EzZ5bmviKzF55Ym","180EbLswkYqCuK2SahhBUOKLEBnEB-5Tp","1AgDVgaOi9c4sCW1o9e-hwk_FdXiyqtWu","1F3ERytPkEZxdV2wlSSJS2MSOMAubyNcL","1J1Y3GqBrrusvQ33Mu97Ff_Mu3PHsV1st","1RK3HR2TxdP0BGa2wDc4Gm1rgnFwyENeC","1VcetbNcquLdpdsxNyVeGNt5zdmZGYXeT","1pvlZ0K4f8XbTuvRvUuIBKCPvRVhAitPk","1sq3gsMcwScsaW3S2PKAnhVrK1sPOaD13","12lWspts1Z80CSnQ08F8neAWVDT7LqXBl","1K-0PMoVVrxcGMzFXRKZPE9zg0yOFkC5a","1ONC6cSUuMKs3n0UY2tOS1LCYS-bR_VMY","1bV8NjxdgSTEEmo_cka9H4ZbeM_T3fZpB","1zoPLjGpYd3-3Jq5CD6eubpW3QxmReID9"];
-const g = document.getElementById('gallery');
-g.innerHTML = ids.map(id => `<div class="gallery-item" onclick="openLightbox('https://lh3.googleusercontent.com/d/${id}')"><img src="https://lh3.googleusercontent.com/d/${id}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`).join('');
-function openLightbox(src){ document.getElementById('lb-img').src=src; document.getElementById('lightbox').classList.add('open'); }
-function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
-document.getElementById('lightbox').addEventListener('click',function(e){ if(e.target===this) closeLightbox(); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+document.getElementById('count').textContent = ids.length + ' 張';
+const grid = document.getElementById('grid');
+ids.forEach((id,i) => {
+  const div = document.createElement('div');
+  div.className = 'ex-item';
+  const img = document.createElement('img');
+  img.src = 'https://lh3.googleusercontent.com/d/' + id;
+  img.loading = i < 4 ? 'eager' : 'lazy';
+  img.onerror = () => { div.style.display='none'; };
+  div.appendChild(img);
+  div.onclick = () => openLb('https://lh3.googleusercontent.com/d/' + id);
+  grid.appendChild(div);
+});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => { if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('visible'), i*60); obs.unobserve(e.target); } });
+}, {threshold:0.08});
+document.querySelectorAll('.ex-item').forEach(el => obs.observe(el));
+function openLb(src){ document.getElementById('lb-img').src=src; document.getElementById('lb').classList.add('open'); }
+function closeLb(){ document.getElementById('lb').classList.remove('open'); }
+document.getElementById('lb').addEventListener('click',function(e){ if(e.target===this) closeLb(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLb(); });
 </script>
 </body>
 </html>

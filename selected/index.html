@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作品精選 · Ahniomini</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared.css">
+  <style>
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .work-card {
+      border-radius: 20px; overflow: hidden; cursor: pointer;
+      text-decoration: none; color: var(--text);
+      border: 1.5px solid var(--border); background: #fff;
+      transition: transform 0.22s, box-shadow 0.22s; display: block;
+    }
+    .work-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+    .card-thumb { aspect-ratio: 4/3; overflow: hidden; background: #f5f5f5; }
+    .card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .work-card:hover .card-thumb img { transform: scale(1.06); }
+    .card-body { padding: 1.1rem 1.2rem 1.3rem; }
+    .card-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.3rem; }
+    .card-title { font-size: 1.05rem; font-weight: 900; margin-bottom: 0.3rem; }
+    .card-count { font-size: 0.8rem; color: var(--text-muted); }
+    .card-arrow { font-size: 0.85rem; color: #ccc; float: right; margin-top: -1.2rem; }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+<nav>
+  <a class="nav-logo" href="../index.html">Ahniomini ✦</a>
+  <ul class="nav-links">
+    <li><a href="../index.html#portfolio">作品集</a></li>
+    <li><a href="../index.html#about">關於我</a></li>
+    <li><a href="https://www.instagram.com/ahniomini/" target="_blank" class="nav-ig">📷 Instagram</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <a class="back-link" href="../index.html#portfolio">← 回作品集</a>
+    <p class="eyebrow" style="color:#D4537E">Portfolio</p>
+    <h1 class="page-title">作品精選</h1>
+    <p class="page-desc">精心挑選的系列作品，每一組都有自己的故事。</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="card-grid">
+
+      <a class="work-card" href="drawing.html">
+        <div class="card-thumb">
+          <img src="https://lh3.googleusercontent.com/d/10SiTSrKFK02a21dZaeV3tDbxKxC26lTS" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="card-body">
+          <div class="card-eyebrow">作品精選</div>
+          <div class="card-title">PIPI繪畫</div>
+          <div class="card-count">15 張作品</div>
+          <div class="card-arrow">›</div>
+        </div>
+      </a>
+
+      <a class="work-card" href="comic.html">
+        <div class="card-thumb">
+          <img src="https://lh3.googleusercontent.com/d/10Q-uImYVnpJgPfW7wTq3dkmVVWLanANv" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="card-body">
+          <div class="card-eyebrow">作品精選</div>
+          <div class="card-title">PIPI圖文集</div>
+          <div class="card-count">17 張作品</div>
+          <div class="card-arrow">›</div>
+        </div>
+      </a>
+
+      <a class="work-card" href="stories/index.html">
+        <div class="card-thumb">
+          <img src="https://lh3.googleusercontent.com/d/14OEF5NzbTORxLXiBtTdFC5OQBRUKo6pw" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="card-body">
+          <div class="card-eyebrow">作品精選</div>
+          <div class="card-title">PIPI小故事</div>
+          <div class="card-count">4 個系列</div>
+          <div class="card-arrow">›</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Ahniomini ✦</div>
+  <p>© 2025 Ahniomini. All rights reserved.</p>
+</footer>
+</div>
+</body>
+</html>
