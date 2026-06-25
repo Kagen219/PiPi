@@ -3,112 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>陪伴的藝術 · Ahniomini</title>
+  <title>陪伴的藝術 · Pei-I</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../shared.css">
   <style>
     body { background: #0d0d0d; }
-
-    /* 過場封面 */
-    .cover {
-      position: fixed; inset: 0; z-index: 500;
-      background: #0d0d0d;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 1.5rem; cursor: pointer;
-      transition: opacity 0.8s ease;
-    }
-    .cover.hide { opacity: 0; pointer-events: none; }
-    .cover-tag { color: rgba(255,255,255,0.4); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; animation: fadeUp 0.8s ease 0.2s both; }
-    .cover-title { color: #fff; font-size: clamp(2rem, 7vw, 4rem); font-weight: 900; letter-spacing: -0.02em; text-align: center; padding: 0 1.5rem; animation: fadeUp 0.8s ease 0.5s both; }
-    .cover-hint { color: rgba(255,255,255,0.35); font-size: 0.82rem; font-weight: 700; animation: fadeUp 0.8s ease 0.9s both; display: flex; align-items: center; gap: 8px; }
-    .cover-dot { width: 6px; height: 6px; border-radius: 50%; background: #D4537E; animation: pulse 1.5s ease-in-out infinite; }
-    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .cover { position:fixed; inset:0; z-index:500; background:#0d0d0d; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; cursor:pointer; transition:opacity 0.8s ease; }
+    .cover.hide { opacity:0; pointer-events:none; }
+    .cover-tag { color:rgba(255,255,255,0.4); font-size:0.78rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; animation:fadeUp 0.8s ease 0.2s both; }
+    .cover-title { color:#fff; font-size:clamp(2rem,7vw,4rem); font-weight:900; letter-spacing:-0.02em; text-align:center; padding:0 1.5rem; animation:fadeUp 0.8s ease 0.5s both; }
+    .cover-hint { color:rgba(255,255,255,0.35); font-size:0.82rem; font-weight:700; animation:fadeUp 0.8s ease 0.9s both; display:flex; align-items:center; gap:8px; }
+    .cover-dot { width:6px; height:6px; border-radius:50%; background:#D4537E; animation:pulse 1.5s ease-in-out infinite; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
     @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(1);}50%{opacity:1;transform:scale(1.3);} }
-
-    /* 헤더 */
-    .scroll-header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      height: 52px; display: flex; align-items: center; justify-content: space-between;
-      padding: 0 1.25rem;
-      background: rgba(0,0,0,0.6); backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      opacity: 0; transition: opacity 0.5s ease;
-    }
-    .scroll-header.show { opacity: 1; }
-    .sh-back { color: rgba(255,255,255,0.7); font-size: 0.85rem; font-weight: 700; text-decoration: none; transition: color 0.2s; }
-    .sh-back:hover { color: #fff; }
-    .sh-title { color: #fff; font-size: 0.9rem; font-weight: 900; }
-    .sh-count { color: rgba(255,255,255,0.4); font-size: 0.78rem; font-weight: 700; }
-
-    /* 瀑布 */
-    .scroll-wrap {
-      padding-top: 52px; display: flex; flex-direction: column; align-items: center;
-      background: #0d0d0d;
-    }
-    .scroll-img { width: 100%; max-width: 720px; line-height: 0; opacity: 0; transform: translateY(40px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .scroll-img.visible { opacity: 1; transform: translateY(0); }
-    .scroll-img img { width: 100%; display: block; }
-
-    .scroll-end { padding: 3rem 1rem 5rem; text-align: center; }
-    .end-line { display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 2rem; }
-    .end-line::before, .end-line::after { content:''; flex:1; max-width:60px; height:1px; background:rgba(255,255,255,0.15); }
-    .end-text { color: rgba(255,255,255,0.3); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; }
-    .end-btn { display: inline-block; background: #D4537E; color: #fff; font-size: 0.9rem; font-weight: 700; font-family: inherit; padding: 11px 26px; border-radius: 999px; text-decoration: none; transition: opacity 0.2s; }
-    .end-btn:hover { opacity: 0.85; }
+    .scroll-header { position:fixed; top:0; left:0; right:0; z-index:200; height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 1.25rem; background:rgba(0,0,0,0.6); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.06); opacity:0; transition:opacity 0.5s ease; }
+    .scroll-header.show { opacity:1; }
+    .sh-back { color:rgba(255,255,255,0.7); font-size:0.85rem; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    .sh-back:hover { color:#fff; }
+    .sh-title { color:#fff; font-size:0.9rem; font-weight:900; }
+    .sh-count { color:rgba(255,255,255,0.4); font-size:0.78rem; font-weight:700; }
+    .scroll-wrap { padding-top:52px; display:flex; flex-direction:column; align-items:center; background:#0d0d0d; }
+    .scroll-img { width:100%; max-width:720px; line-height:0; opacity:0; transform:translateY(40px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .scroll-img.visible { opacity:1; transform:translateY(0); }
+    .scroll-img img { width:100%; display:block; }
+    .scroll-end { padding:3rem 1rem 5rem; text-align:center; }
+    .end-line { display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:2rem; }
+    .end-line::before,.end-line::after { content:''; flex:1; max-width:60px; height:1px; background:rgba(255,255,255,0.15); }
+    .end-text { color:rgba(255,255,255,0.3); font-size:0.8rem; font-weight:700; letter-spacing:0.1em; }
+    .end-btn { display:inline-block; background:#D4537E; color:#fff; font-size:0.9rem; font-weight:700; font-family:inherit; padding:11px 26px; border-radius:999px; text-decoration:none; transition:opacity 0.2s; }
+    .end-btn:hover { opacity:0.85; }
   </style>
 </head>
 <body>
-
-<!-- 封面過場 -->
 <div class="cover" id="cover" onclick="startReading()">
-  <div class="cover-tag">PIPI 小故事</div>
+  <div class="cover-tag">Pei-I ( π ) 小故事</div>
   <div class="cover-title">陪伴的藝術</div>
   <div class="cover-hint"><div class="cover-dot"></div>點擊開始閱讀</div>
 </div>
-
 <header class="scroll-header" id="header">
   <a class="sh-back" href="index.html">← 回小故事</a>
   <span class="sh-title">陪伴的藝術</span>
   <span class="sh-count" id="count-label"></span>
 </header>
-
 <div class="scroll-wrap" id="wrap"></div>
-
 <script>
-const ids = ["14OEF5NzbTORxLXiBtTdFC5OQBRUKo6pw","1A_WvU3_6CuPJY6ZFmraUUGINrbSQfjIM","1nVXJgRirdz10akfPtWCYDoURwR6ioT5c","1yd_TI4_oQxYVI3KzpX0-id8UwW_Cza36","1zE-EeYkr8zzjWqZ5tN_P6sV_Q5bvMJGg"];
+const ids = ["1LcqZaEofwUeHkjcQdZlU_VqW3tt2-kxc","1aNH-ULreZgxFcz0HGhiHaovoB829SEoy","1KYHKxUukemUPbhFUwgHSzm4i--RNk2lw","17HMURM5aik3uOTzI4nkxgnPtKg7JHCNz","1dTc6WSqb1yHpcUAt6VWI1Cnzpzn02ghw"];
 const wrap = document.getElementById('wrap');
 document.getElementById('count-label').textContent = ids.length + ' 張';
-
-ids.forEach((id, i) => {
+ids.forEach((id,i) => {
   const div = document.createElement('div');
   div.className = 'scroll-img';
   const img = document.createElement('img');
   img.src = 'https://lh3.googleusercontent.com/d/' + id;
-  img.alt = '第 ' + (i+1) + ' 張';
+  img.alt = '第'+(i+1)+'張';
   img.loading = i < 2 ? 'eager' : 'lazy';
-  img.onerror = () => { div.style.display = 'none'; };
+  img.onerror = () => { div.style.display='none'; };
   div.appendChild(img);
   wrap.appendChild(div);
 });
-
 const endDiv = document.createElement('div');
 endDiv.className = 'scroll-end';
 endDiv.innerHTML = '<div class="end-line"><span class="end-text">故事結束</span></div><a class="end-btn" href="index.html">看其他故事</a>';
 wrap.appendChild(endDiv);
-
 function startReading() {
   document.getElementById('cover').classList.add('hide');
-  setTimeout(() => {
-    document.getElementById('cover').style.display = 'none';
-    document.getElementById('header').classList.add('show');
-  }, 800);
+  setTimeout(() => { document.getElementById('cover').style.display='none'; document.getElementById('header').classList.add('show'); }, 800);
 }
-
-// scroll reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.1 });
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, {threshold:0.1});
 document.querySelectorAll('.scroll-img').forEach(el => observer.observe(el));
 </script>
 </body>
