@@ -40,6 +40,7 @@ nav {
 .breadcrumb span { color: #ccc; }
 
 /* BTN */
+
 .btn { display: inline-flex; align-items: center; gap: 6px; padding: 11px 26px; border-radius: 999px; font-size: 0.95rem; font-weight: 700; font-family: inherit; cursor: pointer; text-decoration: none; transition: all 0.2s; border: none; }
 .btn-primary { background: var(--pink); color: #fff; }
 .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
