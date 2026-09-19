@@ -62,6 +62,26 @@
 const ids = ["1F3ERytPkEZxdV2wlSSJS2MSOMAubyNcL","1pvlZ0K4f8XbTuvRvUuIBKCPvRVhAitPk","1CJ2mLzjwyQhD-x9nmlHCZupaK1h6rdgK","1ECL6BN6l0FITrKzPGgkfdtGKOhe0ZE4p","1NBs0A8oDp1O_jhn2ruLWmqk5N4rjCPLu","1QEB49YvqTFHJ1NFo59tY2bvFEjCpYtZl","1e8q479ewvYoTC10YFkPrWDV-fW5LstlC","1fqaC-SvF9CwTxqnqKRK57th57TjdmkBC","1hRve4oO6ual69wnikf5q-O2L7uRyNWvx","1oXOC1dwSKJBw7axZF9BT01nY4DFr_t1O","1p97Q7HJpT4n8WwwQokpYyBYoc5JvciGw","1pbgCWZWVkhJSaT5b8dZxLzk36NZ7bscu","1qp38Pq1w4UcMtHqX_HOTdnaFc1ttwTZI","1tkOcTMd6P2VZnXEvMD_nPBp3suQsfHMz","1vi5ql8Mwtz_Ui09yWhaQySS212jU6PzQ","15pUNbDmeBHDEC0LoVIjtDevtAB76g_7l","1AwTnJPEEtakROm4_MA9DlkRHmkHs1Me_","1BIDnpeMZ2hFnlRsL79knYfiDCWb5E-ff","1EI1269BZz0y-AmJD4Fra8RWj_1wQyZDV","1GCX9amVktnwolG7RHsdDPapjGnwFinN5","1Y_1KyHY6E9lC0id3luR-xIDC16VpUnkX","1dHPztGNNCNWtA4liacYuXap9aIdMeVka","1gmtQ2u1SaBqtnIOepZ737djIG40mxy5D","1gqVHUwyRKycW9pXAjK6m2VeRxOSxHPP5","12_YB_rfjOGzhmmE1jcy17IK4Mgrsl8rA","18jsdq5NnNoOgNAAlW6nuIICKLAARBr6l","1CmgVH2-xJC0pM4v0qM-wG7VzmsZ-I_gm","1ZcawA_i_3EiM4cTgmuhU9YvVuoHwYUna","1a0txXpbMWFr_080RSjqrMYMr1fqtZ4nG","1bjx3Ks8mEtJ8PKGStSM8BkZq7_zOb-pW","1iatABCFAZclUZ5Nr3G5qm8of6fSSD3X8","1rI-oVXuJJeNO_e4h0aAiixIulEAU95TS"];
 // 例如：const ids = ["ID1","ID2","ID3"];
 
+ids.forEach((id, i) => {
+    const div = document.createElement('div');
+    div.className = 'ex-item';
+    const img = document.createElement('img');
+    
+    // ⭐ 防歪專用！直接鎖定這張照片轉 90 度：
+    if (id === '1pvlZ0K4f8XbTuvRvUuIBKCPvRVhAitPk') {
+      img.style.transform = 'rotate(90deg)'; // 順時針轉90度，您也可以改成 270deg、-90deg 或 180deg
+      img.style.margin = '30px 0'; // 旋轉可能會讓橫寬比例變調，加點邊距預留空間
+    }
+
+    img.src = 'https://lh3.googleusercontent.com/d/' + id;
+    img.loading = i < 4 ? 'eager' : 'lazy';
+    img.onerror = () => { div.style.display = 'none'; };
+    div.appendChild(img);
+    div.onclick = () => openLb('https://lh3.googleusercontent.com/d/' + id);
+    grid.appendChild(div);
+  });
+
+
 if (ids.length > 0) {
   document.getElementById('count').textContent = ids.length + ' 張';
   const grid = document.createElement('div');
